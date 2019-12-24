@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2018 Australian Institute of Marine Science
+
+	Contact: Gael Lafond <g.lafond@aims.gov.au>
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+	This file is simply metadata to tell InkScape how to bind the Python
+		script to its API, and define the script dependencies.
+	It can be bind through menu item in InkScape, we can add configuration
+		window with tabs, all sort of fancy stuff.
+	In this case, we simply want to add a "Save as" format, without any
+		configuration.
+-->
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+	<_name>OpenSCAD bezier</_name>
+	<id>au.gov.aims.openscad.bezier</id>
+	<dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
+	<dependency type="executable" location="extensions">openSCADbezier.py</dependency>
+	<dependency type="executable" location="extensions">inkex.py</dependency>
+	<dependency type="executable" location="extensions">simpletransform.py</dependency>
+	<dependency type="executable" location="extensions">cubicsuperpath.py</dependency>
+
+	<output>
+		<extension>.scad</extension>
+		<mimetype>application/x-openscad</mimetype>
+		<_filetypename>OpenSCAD Bezier (*.scad)</_filetypename>
+		<_filetypetooltip>OpenSCAD Bezier Model</_filetypetooltip>
+		<dataloss>true</dataloss>
+	</output>
+	<script>
+		<command reldir="extensions" interpreter="python">openSCADbezier.py</command>
+	</script>
+</inkscape-extension>
