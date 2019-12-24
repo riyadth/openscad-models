@@ -1,0 +1,3 @@
+SVG to OpenSCAD Bezier - InkScape extension (https://www.thingiverse.com/thing:2805184) by gaellafond is licensed under the Creative Commons - Attribution license.
+http://creativecommons.org/licenses/by/3.0/
+
