@@ -97,5 +97,5 @@ module spartronics_emblem() {
         curved_text("4915", text_radius, text_spacing, reverse=true);
 }
 
-rotate([45, 0, $t*360])
+//rotate([45, 0, $t*360])
 spartronics_emblem();
