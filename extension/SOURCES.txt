@@ -1,3 +1,0 @@
-Sources for SVG to OpenSCAD Bezier - InkScape extension
-
-Inkscape to OpenSCAD converter v6 (https://www.thingiverse.com/thing:25036)
