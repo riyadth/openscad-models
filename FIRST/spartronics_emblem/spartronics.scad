@@ -46,7 +46,7 @@ module gear_base(diameter, edge_thickness, center_thickness) {
 
     // The blue background
     color("blue") translate([0,0, center_thickness/2])
-        linear_extrude(height=center_thickness/2) circle(d=outer_diameter * 0.8);
+        linear_extrude(height=center_thickness/2) circle(d=diameter * 0.8);
 }
 
 // Print curved text in Spartronics font (SF Transrobotics)
@@ -64,32 +64,38 @@ module curved_text(line, radius, spacing, reverse=false, center=true) {
     }
 }
 
-// Tunale Parameters
-outer_diameter=75;
-outer_height=10;
-text_spacing=6.5;
+// Assemble the final spartronics emblem model
+module spartronics_emblem() {
+    // Tunale Parameters
+    outer_diameter=75;
+    outer_height=10;
+    text_spacing=6.5;
 
-// Derived Parameters
-helmet_scale=0.40;
-text_radius=0.64 * (outer_diameter / 2);
-logo_height=outer_height * 0.8;
-base_height=outer_height * 0.5;
+    // Derived Parameters
+    helmet_scale=0.40;
+    text_radius=0.64 * (outer_diameter / 2);
+    logo_height=outer_height * 0.8;
+    base_height=outer_height * 0.5;
 
-// The main outline
-gear_base(outer_diameter, outer_height, base_height);
+    // The main outline
+    gear_base(outer_diameter, outer_height, base_height);
 
-color("yellow")
-    translate([0,0,base_height])
-    linear_extrude(height=logo_height-base_height)
-    helmet(helmet_scale);
+    color("yellow")
+        translate([0,0,base_height])
+        linear_extrude(height=logo_height-base_height)
+        helmet(helmet_scale);
 
-color("yellow")
-    translate([0,0,base_height])
-    linear_extrude(height=logo_height-base_height)
-    curved_text("SPARTRONICS", text_radius, text_spacing);
+    color("yellow")
+        translate([0,0,base_height])
+        linear_extrude(height=logo_height-base_height)
+        curved_text("SPARTRONICS", text_radius, text_spacing);
 
-color("yellow")
-    rotate([0,0,180])
-    translate([0,0,base_height])
-    linear_extrude(height=logo_height-base_height)
-    curved_text("4915", text_radius, text_spacing, reverse=true);
+    color("yellow")
+        rotate([0,0,180])
+        translate([0,0,base_height])
+        linear_extrude(height=logo_height-base_height)
+        curved_text("4915", text_radius, text_spacing, reverse=true);
+}
+
+rotate([45, 0, $t*360])
+spartronics_emblem();
