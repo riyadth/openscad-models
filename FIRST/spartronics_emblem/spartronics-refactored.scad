@@ -4,9 +4,9 @@
 $fn=100;
 
 // Import helmet SVG file, and adjust for centering and scale
-module helmet() {
+module helmet(scale_factor) {
     translate([-3,1,0])
-    scale(0.40)
+    scale(scale_factor)
     import("images/spartronics-helmet.svg", center=true, dpi=96);
 }
 
@@ -73,6 +73,7 @@ text_spacing=6.5;
 logo_height=outer_height * 0.8;
 base_height=outer_height * 0.5;
 text_radius=(outer_diameter / 2) * 0.64;
+helmet_scale=0.40 * (outer_diameter / 75);
 
 // The main outline
 gear_base(outer_diameter, outer_height, base_height);
@@ -80,7 +81,7 @@ gear_base(outer_diameter, outer_height, base_height);
 // The helmet
 color("yellow")
 linear_extrude(height=logo_height)
-helmet();
+helmet(helmet_scale);
 
 // SPARTRONICS text
 color("yellow")
