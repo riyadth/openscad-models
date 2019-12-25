@@ -4,7 +4,7 @@
 $fn=100;
 
 module helmet(center=false) {
-    import("helmet.svg", center=center, dpi=96);
+    import("images/spartronics-helmet.svg", center=center, dpi=96);
 }
 
 module rounded_rectangle(length) {
@@ -35,7 +35,7 @@ module base_outline(diameter) {
 
 module curved_text(line, radius, spacing, reverse=false, center=true) {
     angle_step = (180 * spacing) / (radius * PI) * (reverse ? -1 : 1);
-    rotate([0, 0, angle_step * (len(line) - 1) / 2]) {
+    rotate([0, 0, angle_step * (len(line) - 1) / 2 - 90]) {
     union() {
         for (i=[0:len(line) - 1]) {
             point = [-radius * cos(angle_step * i), radius * sin(angle_step * i), 0];
@@ -54,16 +54,19 @@ text_fraction=0.32;
 
 helmet_thickness=0.7;
 
-//helmet(center=true);
+color("yellow")
+translate([-3,0,base_height])
+linear_extrude(height=height-base_height)
+scale(0.55)
 helmet(center=true);
 
-/*
-color("blue"){
+color("yellow")
 linear_extrude(height=height)
 base_outline(outer_diameter);
+
+color("blue")
 linear_extrude(height=base_height)
-circle(d=0.82*outer_diameter);
-}
+circle(d=0.77*outer_diameter);
 
 color("yellow")
 translate([0,0,base_height])
@@ -75,4 +78,3 @@ rotate([0,0,180])
 translate([0,0,base_height])
 linear_extrude(height=height-base_height)
 curved_text("4915", text_fraction*outer_diameter, 7, reverse=true);
-*/
