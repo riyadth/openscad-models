@@ -41,23 +41,24 @@ module curved_text(line, radius, spacing, reverse=false, center=true) {
             point = [-radius * cos(angle_step * i), radius * sin(angle_step * i), 0];
             translate(point)
                 rotate(-i*angle_step+(reverse ? -90 : 90))
-                text(line[i], halign="center", valign="center", size=7, font="SF TransRobotics:style=Bold");
+                text(line[i], halign="center", valign="center", size=8, font="SF TransRobotics");
         }
     }
     }
 }
 
-height=15;
-base_height=7.5;
-outer_diameter=100;
+height=10;
+base_height=5;
+recess_factor=0.5;
+outer_diameter=75;
 text_fraction=0.32;
 
 helmet_thickness=0.7;
 
 color("yellow")
-translate([-3,0,base_height])
-linear_extrude(height=height-base_height)
-scale(0.55)
+translate([-3,1,base_height])
+linear_extrude(height=recess_factor*(height-base_height))
+scale(0.40)
 helmet(center=true);
 
 color("yellow")
@@ -70,11 +71,11 @@ circle(d=0.77*outer_diameter);
 
 color("yellow")
 translate([0,0,base_height])
-linear_extrude(height=height-base_height)
-curved_text("SPARTRONICS", text_fraction*outer_diameter, 7);
+linear_extrude(height=recess_factor*(height-base_height))
+curved_text("SPARTRONICS", text_fraction*outer_diameter, 6.5);
 
 color("yellow")
 rotate([0,0,180])
 translate([0,0,base_height])
-linear_extrude(height=height-base_height)
-curved_text("4915", text_fraction*outer_diameter, 7, reverse=true);
+linear_extrude(height=recess_factor*(height-base_height))
+curved_text("4915", text_fraction*outer_diameter, 6.5, reverse=true);
