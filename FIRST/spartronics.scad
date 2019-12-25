@@ -3,6 +3,10 @@
  */
 $fn=100;
 
+module helmet(center=false) {
+    import("helmet.svg", center=center, dpi=96);
+}
+
 module rounded_rectangle(length) {
     rounding = 2.5;
     minkowski() {
@@ -48,18 +52,27 @@ base_height=7.5;
 outer_diameter=100;
 text_fraction=0.32;
 
+helmet_thickness=0.7;
+
+//helmet(center=true);
+helmet(center=true);
+
+/*
 color("blue"){
 linear_extrude(height=height)
 base_outline(outer_diameter);
 linear_extrude(height=base_height)
-circle(d=0.90*outer_diameter);
+circle(d=0.82*outer_diameter);
 }
 
+color("yellow")
 translate([0,0,base_height])
 linear_extrude(height=height-base_height)
 curved_text("SPARTRONICS", text_fraction*outer_diameter, 7);
 
+color("yellow")
 rotate([0,0,180])
 translate([0,0,base_height])
 linear_extrude(height=height-base_height)
 curved_text("4915", text_fraction*outer_diameter, 7, reverse=true);
+*/
