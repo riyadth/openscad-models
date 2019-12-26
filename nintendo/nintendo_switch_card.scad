@@ -27,7 +27,7 @@ base_form();
 module cartridge(line1, line2) {
     difference() {
         base_form();
-        translate([0.05 * height, 0.05 * width, 0.9*depth]) {
+        translate([0.05 * height, 0.05 * width, depth-1]) {
             scale(v=[0.8, 0.9, 1]) {
                 base_form();
             }
@@ -57,11 +57,11 @@ module cartridge(line1, line2) {
 
     }
 
-    translate([0.20 * height, 0.5 * width, depth - 0.5]) {
+    %translate([0.20 * height, 0.5 * width, depth - 1]) {
         scale(v=[0.5, 0.5, 1.0]) {
             rotate(a=[0,0,90]){
-                linear_extrude(height=0.5) {
-                    text("Nentandu", size=5, halign="center");
+                linear_extrude(height=1) {
+                    text("Nentandu", size=6, halign="center");
                 }
             }
         }
@@ -69,10 +69,10 @@ module cartridge(line1, line2) {
 
 
 
-    translate([0.40 * height, 0.5 * width, depth - 0.5]) {
+    %translate([0.40 * height, 0.5 * width, depth - 1]) {
         scale(v=[0.5, 0.5, 1.0]) {
             rotate(a=[0,0,90]){
-                linear_extrude(height=0.5) {
+                linear_extrude(height=1) {
                     multiline(line1, line2);
                 }
             }
@@ -84,7 +84,7 @@ module cartridge(line1, line2) {
 module multiline(line1, line2) {
     text(line1, size=5, halign="center");
     translate([0.0, -7.0, 0.0]) {
-        text(line2, size=5, halign="center");
+        text(line2, size=6, halign="center");
     }
 }
 
