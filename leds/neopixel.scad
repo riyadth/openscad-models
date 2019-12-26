@@ -4,6 +4,8 @@
  * Includes modules for
  *  - a single square LED
  *  - square LED on a PCB breakout
+ *  - a 12 pixel ring
+ *  - a helper function to make new neopixel rings
  */
 
 // Small positive value constant
@@ -49,8 +51,59 @@ module neopixel_led_breakoff(color="silver") {
     }
 }
 
-translate([20,0,0])
-    neopixel_led(color="red");
+module neopixel_led_general_ring(inner_diameter, annulus_width, pcb_height, num_leds, colors) {
+    // Generic neopixel ring
+    // Construct annulus pcb
+    linear_extrude(pcb_height, convexity=2)
+    difference() {
+        offset(annulus_width)
+        circle(d=inner_diameter);
+        circle(d=inner_diameter);
+    }
+    // Add the neopixels
+    for (i = [0:num_leds-1]) {
+        rotate(i * 360/num_leds, [0, 0, 1])
+        translate([inner_diameter/2 + annulus_width/2, 0, pcb_height])
+        neopixel_led(center=true, color=i < len(colors) ? colors[i] : "silver");
+    }
+}
+
+module neopixel_led_12px_ring(colors) {
+    // Our 12 led ring
+    // Values in mm
+    inner_diameter = 36.25;
+    annulus_width = 7.5;
+    pcb_height = 1.6;
+    num_leds = 12;
+    module screw_holes() {
+        screw_hole_diameter = 2.25;
+        screw_radial_offset = 0.5;
+        screw_hole_centers = inner_diameter/2 + annulus_width - screw_radial_offset - screw_hole_diameter/2;
+        union() {
+            for (i = [0:3]) {
+                rotate(45 + i * 90, [0, 0, 1])
+                translate([screw_hole_centers, 0, -eps])
+                linear_extrude(pcb_height + 2*eps)
+                circle(d=screw_hole_diameter);
+            }
+        }
+    }
+
+    difference() {
+        neopixel_led_general_ring(inner_diameter, annulus_width, pcb_height, num_leds, colors);
+        screw_holes();
+    }
+}
+
+neopixel_led_12px_ring(["royalblue", "yellow",
+"royalblue", "yellow",
+"royalblue", "yellow",
+"royalblue", "yellow",
+"royalblue", "yellow",
+"royalblue", "yellow"]);
+
+translate([-10,0,0])
+    neopixel_led(center=true, color="red");
 
 translate([10,0,0])
     neopixel_led(center=true, color="green");
