@@ -24,16 +24,16 @@ module neopixel_led(center=false, color="silver") {
     led_height = full_height-pcb_height;
 
     translate(center ? [-square_width/2, -square_height/2, 0] : [0, 0, 0])
-        difference() {
-            color("white")
-                linear_extrude(led_height)
-                square([square_width, square_height]);
+    union() {
+        color("white")
+            linear_extrude(led_height)
+            square([square_width, square_height]);
 
-            color(color)
-                translate([square_width/2, square_height/2, led_height-0.1])
-                linear_extrude(0.1 + eps)
-                circle(d=0.9*square_width);
-        }
+        %color(color)
+            translate([square_width/2, square_height/2, led_height-0.1])
+            linear_extrude(0.1 + eps)
+            circle(d=0.9*square_width);
+    }
 }
 
 module neopixel_led_breakoff(color="silver") {
@@ -51,24 +51,31 @@ module neopixel_led_breakoff(color="silver") {
     }
 }
 
-module neopixel_led_general_ring(inner_diameter, annulus_width, pcb_height, num_leds, colors) {
-    // Generic neopixel ring
-    // Construct annulus pcb
-    linear_extrude(pcb_height, convexity=2)
+module annulus(inner_diameter, annulus_width) {
     difference() {
         offset(annulus_width)
         circle(d=inner_diameter);
         circle(d=inner_diameter);
     }
+}
+
+module neopixel_led_general_ring(inner_diameter, annulus_width, pcb_height, num_leds, colors, pixel_buffer) {
+    // Generic neopixel ring
+    // Construct annulus pcb
+    linear_extrude(pcb_height, convexity=2)
+    annulus(inner_diameter, annulus_width);
     // Add the neopixels
     for (i = [0:num_leds-1]) {
         rotate(i * 360/num_leds, [0, 0, 1])
         translate([inner_diameter/2 + annulus_width/2, 0, pcb_height])
-        neopixel_led(center=true, color=i < len(colors) ? colors[i] : "silver");
+        minkowski() {
+            neopixel_led(center=true, color=i < len(colors) ? colors[i] : "silver");
+            sphere(r=pixel_buffer);
+        }
     }
 }
 
-module neopixel_led_12px_ring(colors) {
+module neopixel_led_12px_ring(colors, pixel_buffer=0) {
     // Our 12 led ring
     // Values in mm
     inner_diameter = 36.25;
@@ -90,7 +97,7 @@ module neopixel_led_12px_ring(colors) {
     }
 
     difference() {
-        neopixel_led_general_ring(inner_diameter, annulus_width, pcb_height, num_leds, colors);
+        neopixel_led_general_ring(inner_diameter, annulus_width, pcb_height, num_leds, colors, pixel_buffer);
         screw_holes();
     }
 }
